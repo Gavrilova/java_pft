@@ -7,8 +7,8 @@ import org.testng.annotations.Test;
  * Created by irinagavrilova on 4/14/16.
  */
 public class PointTest2 {
-  @Test
 
+  @Test
   public void testPoint(){
     Point p1 = new Point(-5, 44);
     Point p2 = new Point(100, -14.99);
