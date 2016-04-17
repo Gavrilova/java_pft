@@ -35,7 +35,7 @@ public class ContactCreationTests {
   @Test
   public void testContactCreation() {
     gotoAddNewContactPage();
-    fillContactForm(new ContactData("Irina", "A", "Gavrilova", "test4", "testNickname", "testAddress", "testCompany", "1234567890", "2345678901", "3456789012", "5647", "gavrilova.irina@gmail.com", "testHomepage"));
+    fillContactForm(new ContactData("Irina", "Aleksandrovna", "Gavrilova", "test4", "myNickname", "Peregrine Falcon Dr.", "Zello", "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/"));
     submitContactCreation();
     gotoHomePage();
   }
