@@ -40,4 +40,13 @@ public class ContactHelper extends HelperBase {
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("homepage"), contactData.getHomepage());
   }
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+  public void deleteSelectedContact() {
+    click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+  }
+  public void acceptContactDeletion(){
+    wd.switchTo().alert().accept();
+  }
 }
