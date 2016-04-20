@@ -20,36 +20,38 @@ public class ContactHelper extends HelperBase {
 
   public void fillContactForm(ContactData contactData) {
     type(By.name("firstname"), contactData.getFirstname());
-    //click(By.name("theform"));
     type(By.name("middlename"), contactData.getMiddlename());
     click(By.xpath("//div[@id='content']//label[.='Last name:']"));
     type(By.name("lastname"), contactData.getLastname());
     click(By.xpath("//div[@id='content']//label[.='Nickname:']"));
     type(By.name("nickname"), contactData.getNickname());
-    //click(By.name("theform"));
     type(By.name("title"), contactData.getTitle());
     type(By.name("company"), contactData.getCompany());
     type(By.name("address"), contactData.getAddress());
     type(By.name("home"), contactData.getHome());
     type(By.name("mobile"), contactData.getMobile());
-    //click(By.name("theform"));
     type(By.name("work"), contactData.getWork());
-    //click(By.name("theform"));
     type(By.name("fax"), contactData.getFax());
-    //click(By.name("theform"));
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("homepage"), contactData.getHomepage());
   }
+
   public void selectContact() {
+
     click(By.name("selected[]"));
   }
+
   public void deleteSelectedContact() {
+
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
   }
-public void selectContactToEditFromList() {
-  click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
-}
-  public void initContactModification(){
+
+  public void selectContactToEditFromList() {
+
+    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+  }
+
+  public void initContactModification() {
     click(By.name("update"));
   }
 
