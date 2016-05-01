@@ -23,21 +23,24 @@ public class ContactDeletionTests extends TestBase {
         app.getGroupHelper().createGroup(new GroupData("test1", null, null));
       }
       app.getNavigationHelper().gotoAddNewContactPage();
-      app.getContactHelper().createContact(new ContactData("Ira", "Aleksandrovna", "Gavrilova", "test4", "myNickname", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1"));
+      app.getContactHelper().createContact(new ContactData("Ira", "Aleksandrovna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1"));
       app.getNavigationHelper().gotoHomePage();
     }
-    int before = app.getContactHelper().getContactCount();
-    app.getContactHelper().selectContact();
+    int beforeContact = app.getContactHelper().getContactCount();
+    app.getContactHelper().selectContact(beforeContact - 1);
     app.getContactHelper().deleteSelectedContact();
     app.getContactHelper().acceptDeletion();
     app.getNavigationHelper().gotoHomePage();
-    int after = app.getContactHelper().getContactCount();
-    Assert.assertEquals(before, after +1);
+    int afterContact = app.getContactHelper().getContactCount();
+    Assert.assertEquals(beforeContact, afterContact + 1);
     if (doWeCreateTest1Group) {
       app.getNavigationHelper().gotoGroupPage();
-      app.getGroupHelper().selectGroup();
+      int beforeGroup = app.getGroupHelper().getGroupCount();
+      app.getGroupHelper().selectGroup(beforeGroup - 1);
       app.getGroupHelper().deleteSelectedGroups();
       app.getGroupHelper().returnToGroupPage();
+      int afterGroup = app.getGroupHelper().getGroupCount();
+      Assert.assertEquals(afterGroup, beforeGroup - 1);
     }
   }
 

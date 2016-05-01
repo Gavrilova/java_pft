@@ -15,13 +15,13 @@ public class ContactCreationTests extends TestBase {
       app.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
     app.getNavigationHelper().gotoHomePage();
-    int before = app.getContactHelper().getContactCount();
+    int beforeContact = app.getContactHelper().getContactCount();
     app.getNavigationHelper().gotoAddNewContactPage();
-    app.getContactHelper().createContact(new ContactData("Ira", "Aleksandrovna", "Gavrilova", "test4", "myNickname", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1"));
+    app.getContactHelper().createContact(new ContactData("Ira", "Aleksandrovna", "Gavrilova", "myNickname", "test4",  "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1"));
     app.getNavigationHelper().gotoHomePage();
     app.getNavigationHelper().gotoHomePage();
-    int after = app.getContactHelper().getContactCount();
-    Assert.assertEquals(after, before + 1);
+    int afterContact = app.getContactHelper().getContactCount();
+    Assert.assertEquals(afterContact, beforeContact + 1);
   }
 
 }
