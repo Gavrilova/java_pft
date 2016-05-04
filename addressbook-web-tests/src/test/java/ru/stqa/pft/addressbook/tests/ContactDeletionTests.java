@@ -35,6 +35,11 @@ public class ContactDeletionTests extends TestBase {
     app.getNavigationHelper().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(beforeContact.size(), afterContact.size() + 1);
+
+    beforeContact.remove(beforeContact.size() - 1);
+    Assert.assertEquals(beforeContact, afterContact);
+
+
     if (doWeCreateTest1Group) {
       app.getNavigationHelper().gotoGroupPage();
       List<GroupData> beforeGroup = app.getGroupHelper().getGroupList();
