@@ -16,7 +16,19 @@ public class ContactCreationTests extends TestBase {
   public void testContactCreation() {
     app.getNavigationHelper().gotoGroupPage();
     if (!app.getGroupHelper().isThereAGroup()) {
+      List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
+      GroupData groupTest1 = new GroupData("test1", null, null);
       app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
+      Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
+
+      beforeTest1.add(groupTest1);
+
+      Comparator<? super GroupData> byIdTest1 = (gT1, gT2) -> Integer.compare(gT1.getId(), gT2.getId());;
+      beforeTest1.sort(byIdTest1);
+      afterTest1.sort(byIdTest1);
+      Assert.assertEquals(beforeTest1, afterTest1);
+
     }
     app.getNavigationHelper().gotoHomePage();
 

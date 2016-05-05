@@ -23,10 +23,34 @@ public class ContactModificationTests extends TestBase {
 
       app.getNavigationHelper().gotoGroupPage();
       if (! app.getGroupHelper().isThereAGroup()){
-        app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+        List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
+        GroupData groupTest1 = new GroupData("test1", null, null);
+        app.getGroupHelper().createGroup(groupTest1);
+        List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
+        Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
+
+        beforeTest1.add(groupTest1);
+        Comparator<? super GroupData> byIdTest1 = (gT1, gT2) -> Integer.compare(gT1.getId(), gT2.getId());
+        beforeTest1.sort(byIdTest1);
+        afterTest1.sort(byIdTest1);
+        Assert.assertEquals(beforeTest1, afterTest1);
+
       }
+      app.getNavigationHelper().gotoHomePage();
+      List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
       app.getNavigationHelper().gotoAddNewContactPage();
-      app.getContactHelper().createContact(new ContactData("Irina", "Aleksandrovna", "Gavrilova", "myNickname","test4",  "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1"));
+      ContactData contact1 = new ContactData("Irina", "Aleksandrovna", "Gavrilova", "myNickname","test4",  "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
+      app.getContactHelper().createContact(contact1);
+      app.getNavigationHelper().gotoHomePage();
+      List<ContactData> afterContact1 = app.getContactHelper().getContactList();
+      Assert.assertEquals(afterContact1.size(), beforeContact1.size() + 1);
+
+      beforeContact1.add(contact1);
+      Comparator<? super ContactData> byIdContact1 = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+      beforeContact1.sort(byIdContact1);
+      afterContact1.sort(byIdContact1);
+      Assert.assertEquals(beforeContact1, afterContact1);
+
       app.getNavigationHelper().gotoHomePage();
     }
     List<ContactData> beforeContact = app.getContactHelper().getContactList();
