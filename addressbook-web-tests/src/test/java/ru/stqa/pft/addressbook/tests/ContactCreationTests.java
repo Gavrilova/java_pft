@@ -11,14 +11,14 @@ import java.util.List;
 public class ContactCreationTests extends TestBase {
 
 
-  @Test (enabled = false)
+  @Test
   public void testContactCreation() {
-    app.goTo().groupPage();
-    if (app.group().list().size() == 0) {
-      List<GroupData> beforeTest1 = app.group().list();
-      GroupData groupTest1 = new GroupData().withName("test1");
-      app.group().create(groupTest1);
-      List<GroupData> afterTest1 = app.group().list();
+    app.getNavigationHelper().gotoGroupPage();
+    if (!app.getGroupHelper().isThereAGroup()) {
+      List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
+      GroupData groupTest1 = new GroupData("test1", null, null);
+      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
       Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
 
       beforeTest1.add(groupTest1);
@@ -29,12 +29,12 @@ public class ContactCreationTests extends TestBase {
       Assert.assertEquals(beforeTest1, afterTest1);
 
     }
-    app.goTo().gotoHomePage();
+    app.getNavigationHelper().gotoHomePage();
     List<ContactData> beforeContact = app.getContactHelper().getContactList();
-    app.goTo().gotoAddNewContactPage();
+    app.getNavigationHelper().gotoAddNewContactPage();
     ContactData contact = new ContactData("Maria", "Alexeevna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
     app.getContactHelper().createContact(contact);
-    app.goTo().gotoHomePage();
+    app.getNavigationHelper().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(afterContact.size(), beforeContact.size() + 1);
 

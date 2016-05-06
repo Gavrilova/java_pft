@@ -13,23 +13,23 @@ import java.util.List;
  */
 public class ContactDeletionTests extends TestBase {
 
-  @Test (enabled = false)
+  @Test
 
   public void testContactDeletion() {
     boolean doWeCreateTest1Group = false;
-    app.goTo().gotoHomePage();
+    app.getNavigationHelper().gotoHomePage();
 
     if (!app.getContactHelper().isThereAContact()) {
 
-      app.goTo().groupPage();
+      app.getNavigationHelper().gotoGroupPage();
 
-      if (app.group().list().size() == 0) {
+      if (!app.getGroupHelper().isThereAGroup()) {
 
         doWeCreateTest1Group = true;
-        List<GroupData> beforeTest1 = app.group().list();
-        GroupData groupTest1 = new GroupData().withName("test1");
-        app.group().create(groupTest1);
-        List<GroupData> afterTest1 = app.group().list();
+        List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
+        GroupData groupTest1 = new GroupData("test1", null, null);
+        app.getGroupHelper().createGroup(groupTest1);
+        List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
         Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
 
         beforeTest1.add(groupTest1);
@@ -39,12 +39,12 @@ public class ContactDeletionTests extends TestBase {
         Assert.assertEquals(beforeTest1, afterTest1);
 
       }
-      app.goTo().gotoHomePage();
+      app.getNavigationHelper().gotoHomePage();
       List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
-      app.goTo().gotoAddNewContactPage();
+      app.getNavigationHelper().gotoAddNewContactPage();
       ContactData contact1 = new ContactData("Ira", "Aleksandrovna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
       app.getContactHelper().createContact(contact1);
-      app.goTo().gotoHomePage();
+      app.getNavigationHelper().gotoHomePage();
       List<ContactData> afterContact1 = app.getContactHelper().getContactList();
       Assert.assertEquals(afterContact1.size(), beforeContact1.size() + 1);
 
@@ -58,7 +58,7 @@ public class ContactDeletionTests extends TestBase {
     app.getContactHelper().selectContact(beforeContact.size() - 1);
     app.getContactHelper().deleteSelectedContact();
     app.getContactHelper().acceptDeletion();
-    app.goTo().gotoHomePage();
+    app.getNavigationHelper().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(beforeContact.size(), afterContact.size() + 1);
 
@@ -67,12 +67,12 @@ public class ContactDeletionTests extends TestBase {
 
 
     if (doWeCreateTest1Group) {
-      app.goTo().groupPage();
-      List<GroupData> beforeGroup = app.group().list();
-      app.group().selectGroup(beforeGroup.size() - 1);
-      app.group().deleteSelectedGroups();
-      app.group().returnToGroupPage();
-      List<GroupData> afterGroup = app.group().list();
+      app.getNavigationHelper().gotoGroupPage();
+      List<GroupData> beforeGroup = app.getGroupHelper().getGroupList();
+      app.getGroupHelper().selectGroup(beforeGroup.size() - 1);
+      app.getGroupHelper().deleteSelectedGroups();
+      app.getGroupHelper().returnToGroupPage();
+      List<GroupData> afterGroup = app.getGroupHelper().getGroupList();
       Assert.assertEquals(afterGroup.size(), beforeGroup.size() - 1);
 
       beforeGroup.remove(beforeGroup.size()-1);

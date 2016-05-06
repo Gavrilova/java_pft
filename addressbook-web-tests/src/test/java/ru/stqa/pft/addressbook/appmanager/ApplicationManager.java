@@ -50,11 +50,11 @@ public class ApplicationManager {
     wd.quit();
   }
 
-  public GroupHelper group() {
+  public GroupHelper getGroupHelper() {
     return groupHelper;
   }
 
-  public NavigationHelper goTo() {
+  public NavigationHelper getNavigationHelper() {
     return navigationHelper;
   }
 
