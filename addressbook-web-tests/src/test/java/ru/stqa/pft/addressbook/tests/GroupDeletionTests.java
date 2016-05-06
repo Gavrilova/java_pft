@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
@@ -9,34 +10,35 @@ import java.util.List;
 
 public class GroupDeletionTests extends TestBase {
 
-  @Test
-  public void testGroupDeletion() {
-    app.getNavigationHelper().gotoGroupPage();
-    if (! app.getGroupHelper().isThereAGroup()){
+  @BeforeMethod
 
-      List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
-      GroupData groupTest1 = new GroupData("test1", null, null);
-      app.getGroupHelper().createGroup(groupTest1);
-      List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
+  public void ensurePreconditions(){
+    app.goTo().groupPage();
+    if (app.group().list().size() == 0) {
+      List<GroupData> beforeTest1 = app.group().list();
+      GroupData groupTest1 = new GroupData().withName("test1");
+      app.group().create(groupTest1);
+      List<GroupData> afterTest1 = app.group().list();
       Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
 
       beforeTest1.add(groupTest1);
-      Comparator<? super GroupData> byIdTest1 = (gT1, gT2) -> Integer.compare(gT1.getId(), gT2.getId());
+      Comparator<? super GroupData> byIdTest1 = (gT1, gT2) -> Integer.compare(gT1.getId(), gT2.getId());;
       beforeTest1.sort(byIdTest1);
       afterTest1.sort(byIdTest1);
       Assert.assertEquals(beforeTest1, afterTest1);
-      app.getNavigationHelper().gotoGroupPage();
-
     }
-    List<GroupData> beforeGroup = app.getGroupHelper().getGroupList();
-    app.getGroupHelper().selectGroup(beforeGroup.size()-1);
-    app.getGroupHelper().deleteSelectedGroups();
-    app.getGroupHelper().returnToGroupPage();
-    List<GroupData> afterGroup = app.getGroupHelper().getGroupList();
-    Assert.assertEquals(afterGroup.size(), beforeGroup.size() - 1);
-
-    beforeGroup.remove(beforeGroup.size()-1);
-    Assert.assertEquals(beforeGroup, afterGroup);
   }
 
+  @Test
+  public void testGroupDeletion() {
+
+    List<GroupData> beforeGroup = app.group().list();
+    int index = beforeGroup.size()-1;
+    app.group().delete(index);
+    List<GroupData> afterGroup = app.group().list();
+    Assert.assertEquals(afterGroup.size(), index);
+
+    beforeGroup.remove(index);
+    Assert.assertEquals(beforeGroup, afterGroup);
+  }
 }
