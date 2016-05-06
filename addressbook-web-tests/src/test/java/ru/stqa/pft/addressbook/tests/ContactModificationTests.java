@@ -13,19 +13,19 @@ import java.util.List;
  */
 public class ContactModificationTests extends TestBase {
 
-  @Test
+  @Test (enabled = false)
 
   public void testContactModification() {
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
 
     if (!app.getContactHelper().isThereAContact()) {
 
-      app.getNavigationHelper().gotoGroupPage();
-      if (! app.getGroupHelper().isThereAGroup()){
-        List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
-        GroupData groupTest1 = new GroupData("test1", null, null);
-        app.getGroupHelper().createGroup(groupTest1);
-        List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
+      app.goTo().groupPage();
+      if (app.group().list().size() == 0){
+        List<GroupData> beforeTest1 = app.group().list();
+        GroupData groupTest1 = new GroupData().withName("test1");
+        app.group().create(groupTest1);
+        List<GroupData> afterTest1 = app.group().list();
         Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
 
         beforeTest1.add(groupTest1);
@@ -35,12 +35,12 @@ public class ContactModificationTests extends TestBase {
         Assert.assertEquals(beforeTest1, afterTest1);
 
       }
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().gotoHomePage();
       List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
-      app.getNavigationHelper().gotoAddNewContactPage();
+      app.goTo().gotoAddNewContactPage();
       ContactData contact1 = new ContactData("Irina", "Aleksandrovna", "Gavrilova", "myNickname","test4",  "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
       app.getContactHelper().createContact(contact1);
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().gotoHomePage();
       List<ContactData> afterContact1 = app.getContactHelper().getContactList();
       Assert.assertEquals(afterContact1.size(), beforeContact1.size() + 1);
 
@@ -50,14 +50,14 @@ public class ContactModificationTests extends TestBase {
       afterContact1.sort(byIdContact1);
       Assert.assertEquals(beforeContact1, afterContact1);
 
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().gotoHomePage();
     }
     List<ContactData> beforeContact = app.getContactHelper().getContactList();
     app.getContactHelper().selectContactToEditFromList(beforeContact.size()-1);
     ContactData contact = new ContactData(beforeContact.get(beforeContact.size()-1).getId(), "Ira", "Aleksandrovna", "Gavrilova", "editedNickname", "editedTEST",  "Peregrine Falcon Dr.", "Zello", "123-456 1234", "234-567 3457", "345-678 0000", "5647", "gavrilova.irina@gmail.com", "zello", null);
     app.getContactHelper().fillContactForm(contact, false);
     app.getContactHelper().initContactModification();
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(beforeContact.size(), afterContact.size());
 
