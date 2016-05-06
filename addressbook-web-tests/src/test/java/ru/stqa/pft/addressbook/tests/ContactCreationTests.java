@@ -17,7 +17,7 @@ public class ContactCreationTests extends TestBase {
     if (!app.getGroupHelper().isThereAGroup()) {
       List<GroupData> beforeTest1 = app.getGroupHelper().getGroupList();
       GroupData groupTest1 = new GroupData("test1", null, null);
-      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      app.getGroupHelper().createGroup(groupTest1);
       List<GroupData> afterTest1 = app.getGroupHelper().getGroupList();
       Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
 
