@@ -34,13 +34,17 @@ public class ContactCreationTests extends TestBase {
   @Test
 
   public void testContactCreation() {
-    app.goTo().gotoHomePage();
-    List<ContactData> beforeContact = app.getContactHelper().getContactList();
-    app.goTo().gotoAddNewContactPage();
-    ContactData contact = new ContactData("Maria", "Alexeevna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
-    app.getContactHelper().createContact(contact);
-    app.goTo().gotoHomePage();
-    List<ContactData> afterContact = app.getContactHelper().getContactList();
+    app.goTo().home();
+    List<ContactData> beforeContact = app.contact().list();
+    app.goTo().addNew();
+    ContactData contact = new ContactData().withFirstname("Maria").withMiddlename("Alexeevna")
+            .withLastname( "Gavrilova").withNickname("myNickname").withTitle("test4")
+            .withAddress("Peregrine Falcon Dr.").withHome("345-678 9012").withMobile("123-456 7890")
+            .withWork("234-567 8901").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
+            .withCompany("http://www.zello.com/").withGroup("test1");
+    app.contact().createContact(contact);
+    app.goTo().home();
+    List<ContactData> afterContact = app.contact().list();
     Assert.assertEquals(afterContact.size(), beforeContact.size() + 1);
 
     beforeContact.add(contact);

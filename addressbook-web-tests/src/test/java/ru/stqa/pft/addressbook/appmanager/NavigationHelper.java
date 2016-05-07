@@ -22,14 +22,14 @@ public class NavigationHelper extends HelperBase {
 
   }
 
-  public void gotoHomePage() {
+  public void home() {
     if (isElementPresent(By.id("maintable"))) {
       return;
     }
     click(By.linkText("home"));
   }
 
-  public void gotoAddNewContactPage() {
+  public void addNew() {
     if (isElementPresent(By.tagName("h1"))
             && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
             && (isElementPresent(By.name("new_group")))){

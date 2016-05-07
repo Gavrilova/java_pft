@@ -14,15 +14,15 @@ import java.util.List;
  * Created by irinagavrilova on 4/19/16.
  */
 public class ContactDeletionTests extends TestBase {
-  private boolean doWeCreateTest1Group;
+  private boolean creating;
 
   @BeforeMethod
   public void ensurePreconditions() {
-    doWeCreateTest1Group = false;
-    if (!app.getContactHelper().isThereAContact()) {
+    creating = false;
+    if (app.contact().list().size() == 0) {
       app.goTo().groupPage();
       if (app.group().list().size() == 0) {
-        doWeCreateTest1Group = true;
+        creating = true;
         List<GroupData> beforeTest1 = app.group().list();
         GroupData groupTest1 = new GroupData().withName("test1");
         app.group().create(groupTest1);
@@ -35,13 +35,17 @@ public class ContactDeletionTests extends TestBase {
         afterTest1.sort(byIdTest1);
         Assert.assertEquals(beforeTest1, afterTest1);
       }
-      app.goTo().gotoHomePage();
-      List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
-      app.goTo().gotoAddNewContactPage();
-      ContactData contact1 = new ContactData("Ira", "Aleksandrovna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
-      app.getContactHelper().createContact(contact1);
-      app.goTo().gotoHomePage();
-      List<ContactData> afterContact1 = app.getContactHelper().getContactList();
+      app.goTo().home();
+      List<ContactData> beforeContact1 = app.contact().list();
+      app.goTo().addNew();
+      ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
+              .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
+              .withAddress("Peregrine Falcon Dr.").withHome("123-456 7890").withMobile("234-567 8901")
+              .withWork("345-678 9012").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
+              .withHomepage("http://www.zello.com/").withGroup("test1");
+      app.contact().createContact(contact1);
+      app.goTo().home();
+      List<ContactData> afterContact1 = app.contact().list();
       Assert.assertEquals(afterContact1.size(), beforeContact1.size() + 1);
 
       beforeContact1.add(contact1);
@@ -54,12 +58,12 @@ public class ContactDeletionTests extends TestBase {
 
   @Test
   public void testContactDeletion() {
-    app.goTo().gotoHomePage();
-    List<ContactData> beforeContact = app.getContactHelper().getContactList();
+    app.goTo().home();
+    List<ContactData> beforeContact = app.contact().list();
     int index = beforeContact.size() - 1;
-    app.getContactHelper().deleteContact(index);
-    app.goTo().gotoHomePage();
-    List<ContactData> afterContact = app.getContactHelper().getContactList();
+    app.contact().deleteContact(index);
+    app.goTo().home();
+    List<ContactData> afterContact = app.contact().list();
     Assert.assertEquals(beforeContact.size(), afterContact.size() + 1);
 
     beforeContact.remove(index);
@@ -69,7 +73,7 @@ public class ContactDeletionTests extends TestBase {
 
   @AfterMethod
   public void ensurePostconditions() {
-    if (doWeCreateTest1Group) {
+    if (creating) {
       app.goTo().groupPage();
       List<GroupData> beforeGroup = app.group().list();
       app.group().selectGroup(beforeGroup.size() - 1);
