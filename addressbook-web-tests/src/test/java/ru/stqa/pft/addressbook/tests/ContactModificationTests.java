@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -13,15 +14,11 @@ import java.util.List;
  */
 public class ContactModificationTests extends TestBase {
 
-  @Test
-
-  public void testContactModification() {
-    app.goTo().gotoHomePage();
-
+  @BeforeMethod
+  public void ensurePreconditions() {
     if (!app.getContactHelper().isThereAContact()) {
-
       app.goTo().groupPage();
-      if (app.group().list().size() == 0){
+      if (app.group().list().size() == 0) {
         List<GroupData> beforeTest1 = app.group().list();
         GroupData groupTest1 = new GroupData().withName("test1");
         app.group().create(groupTest1);
@@ -38,7 +35,7 @@ public class ContactModificationTests extends TestBase {
       app.goTo().gotoHomePage();
       List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
       app.goTo().gotoAddNewContactPage();
-      ContactData contact1 = new ContactData("Irina", "Aleksandrovna", "Gavrilova", "myNickname","test4",  "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
+      ContactData contact1 = new ContactData("Irina", "Aleksandrovna", "Gavrilova", "myNickname", "test4", "Peregrine Falcon Dr.", null, "123-456 7890", "234-567 8901", "345-678 9012", "5647", "gavrilova.irina@gmail.com", "http://www.zello.com/", "test1");
       app.getContactHelper().createContact(contact1);
       app.goTo().gotoHomePage();
       List<ContactData> afterContact1 = app.getContactHelper().getContactList();
@@ -49,25 +46,26 @@ public class ContactModificationTests extends TestBase {
       beforeContact1.sort(byIdContact1);
       afterContact1.sort(byIdContact1);
       Assert.assertEquals(beforeContact1, afterContact1);
-
-      app.goTo().gotoHomePage();
     }
+  }
+
+  @Test
+  public void testContactModification() {
+    app.goTo().gotoHomePage();
     List<ContactData> beforeContact = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContactToEditFromList(beforeContact.size()-1);
-    ContactData contact = new ContactData(beforeContact.get(beforeContact.size()-1).getId(), "Ira", "Aleksandrovna", "Gavrilova", "editedNickname", "editedTEST",  "Peregrine Falcon Dr.", "Zello", "123-456 1234", "234-567 3457", "345-678 0000", "5647", "gavrilova.irina@gmail.com", "zello", null);
-    app.getContactHelper().fillContactForm(contact, false);
-    app.getContactHelper().initContactModification();
+    int index = beforeContact.size() - 1;
+    ContactData contact = new ContactData(beforeContact.get(index).getId(), "Ira", "Aleksandrovna", "Gavrilova", "editedNickname", "editedTEST", "Peregrine Falcon Dr.", "Zello", "123-456 1234", "234-567 3457", "345-678 0000", "5647", "gavrilova.irina@gmail.com", "zello", null);
+    app.getContactHelper().modifyContact(index, contact);
     app.goTo().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(beforeContact.size(), afterContact.size());
 
-    beforeContact.remove(beforeContact.size()-1);
+    beforeContact.remove(index);
     beforeContact.add(contact);
 
     Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
     beforeContact.sort(byId);
     afterContact.sort(byId);
     Assert.assertEquals(beforeContact, afterContact);
-
   }
 }

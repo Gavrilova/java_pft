@@ -1,6 +1,8 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -12,19 +14,14 @@ import java.util.List;
  * Created by irinagavrilova on 4/19/16.
  */
 public class ContactDeletionTests extends TestBase {
+  private boolean doWeCreateTest1Group;
 
-  @Test
-
-  public void testContactDeletion() {
-    boolean doWeCreateTest1Group = false;
-    app.goTo().gotoHomePage();
-
+  @BeforeMethod
+  public void ensurePreconditions() {
+    doWeCreateTest1Group = false;
     if (!app.getContactHelper().isThereAContact()) {
-
       app.goTo().groupPage();
-
       if (app.group().list().size() == 0) {
-
         doWeCreateTest1Group = true;
         List<GroupData> beforeTest1 = app.group().list();
         GroupData groupTest1 = new GroupData().withName("test1");
@@ -37,7 +34,6 @@ public class ContactDeletionTests extends TestBase {
         beforeTest1.sort(byIdTest1);
         afterTest1.sort(byIdTest1);
         Assert.assertEquals(beforeTest1, afterTest1);
-
       }
       app.goTo().gotoHomePage();
       List<ContactData> beforeContact1 = app.getContactHelper().getContactList();
@@ -54,18 +50,25 @@ public class ContactDeletionTests extends TestBase {
       afterContact1.sort(byIdContact1);
       Assert.assertEquals(beforeContact1, afterContact1);
     }
+  }
+
+  @Test
+  public void testContactDeletion() {
+    app.goTo().gotoHomePage();
     List<ContactData> beforeContact = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(beforeContact.size() - 1);
-    app.getContactHelper().deleteSelectedContact();
-    app.getContactHelper().acceptDeletion();
+    int index = beforeContact.size() - 1;
+    app.getContactHelper().deleteContact(index);
     app.goTo().gotoHomePage();
     List<ContactData> afterContact = app.getContactHelper().getContactList();
     Assert.assertEquals(beforeContact.size(), afterContact.size() + 1);
 
-    beforeContact.remove(beforeContact.size() - 1);
+    beforeContact.remove(index);
     Assert.assertEquals(beforeContact, afterContact);
+  }
 
 
+  @AfterMethod
+  public void ensurePostconditions() {
     if (doWeCreateTest1Group) {
       app.goTo().groupPage();
       List<GroupData> beforeGroup = app.group().list();
@@ -75,7 +78,7 @@ public class ContactDeletionTests extends TestBase {
       List<GroupData> afterGroup = app.group().list();
       Assert.assertEquals(afterGroup.size(), beforeGroup.size() - 1);
 
-      beforeGroup.remove(beforeGroup.size()-1);
+      beforeGroup.remove(beforeGroup.size() - 1);
       Assert.assertEquals(beforeGroup, afterGroup);
     }
   }
