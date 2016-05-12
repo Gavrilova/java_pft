@@ -127,7 +127,7 @@ public class ContactHelper extends HelperBase {
       String allEmails = element.findElement(By.xpath(".//td[5]")).getText();
       String allPhones = element.findElement(By.xpath(".//td[6]")).getText();
 
-      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withGroup("test1")
               .withAddress(address)
               .withAllEmails(allEmails)
               .withAllPhones(allPhones));
