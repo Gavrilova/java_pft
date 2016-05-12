@@ -36,7 +36,7 @@ public class ContactModificationTests extends TestBase {
       ContactData contact1 = new ContactData().withFirstname("Irina")
               .withMiddlename("Aleksandrovna").withLastname("Gavrilova")
               .withNickname("myNickname").withTitle("test4").withAddress("Peregrine Falcon Dr.")
-              .withHome("123-456 7890").withWork("234-567 8901").withMobile("345-678 9012")
+              .withHomePhone("123-456 7890").withWorkPhone("234-567 8901").withMobilePhone("345-678 9012")
               .withFax("1945").withEmail2("gavrilova.irina@gmail.com")
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
@@ -56,8 +56,8 @@ public class ContactModificationTests extends TestBase {
     ContactData contact = new ContactData().withId(modifiedContact.getId())
             .withFirstname("Ira").withMiddlename("Aleksandrovna").withLastname("Gavrilova")
             .withNickname("editedNickname").withTitle("editedTEST")
-            .withAddress("Peregrine Falcon Dr.").withCompany("Zello").withHome("123-456 1234")
-            .withMobile("234-567 3457").withWork("345-678 0000").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
+            .withAddress("Peregrine Falcon Dr.").withCompany("Zello").withHomePhone("123-456 1234")
+            .withMobilePhone("234-567 3457").withWorkPhone("345-678 0000").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
             .withHomepage("zello");
     app.contact().modifyContact(contact);
     app.goTo().home();

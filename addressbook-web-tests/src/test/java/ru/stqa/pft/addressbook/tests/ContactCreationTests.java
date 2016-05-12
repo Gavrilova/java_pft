@@ -37,8 +37,8 @@ public class ContactCreationTests extends TestBase {
     app.goTo().addNew();
     ContactData contact = new ContactData().withFirstname("Maria").withMiddlename("Alexeevna")
             .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
-            .withAddress("Peregrine Falcon Dr.").withHome("345-678 9012").withMobile("123-456 7890")
-            .withWork("234-567 8901").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
+            .withAddress("Peregrine Falcon Dr.").withHomePhone("345-678 9012").withMobilePhone("123-456 7890")
+            .withWorkPhone("234-567 8901").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
             .withCompany("http://www.zello.com/").withGroup("test1");
     app.contact().createContact(contact);
     app.goTo().home();
