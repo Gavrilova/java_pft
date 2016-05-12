@@ -70,6 +70,8 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
+  private Contacts contactCache = null;
+
   public void createContact(ContactData contact) {
     fillContactForm(contact, true);
     contactCache = null;
@@ -94,7 +96,9 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
   }
 
-  private Contacts contactCache = null;
+  public int count() {
+    return wd.findElements(By.name("entry")).size();
+  }
 
   public Contacts all() {
     if (contactCache != null) {

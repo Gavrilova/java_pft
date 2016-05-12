@@ -44,8 +44,8 @@ public class ContactDeletionTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
+      assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
       Contacts afterContact1 = app.contact().all();
-      assertThat(afterContact1.size(), equalTo(beforeContact1.size() + 1));
       assertThat(afterContact1, equalTo(
               beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
@@ -58,8 +58,8 @@ public class ContactDeletionTests extends TestBase {
     ContactData deletedContact = beforeContact.iterator().next();
     app.contact().deleteContact(deletedContact);
     app.goTo().home();
+    assertThat(app.contact().count(), equalTo(beforeContact.size() - 1));
     Contacts afterContact = app.contact().all();
-    assertThat(beforeContact.size(), equalTo(afterContact.size() + 1));
     assertThat(afterContact, equalTo(beforeContact.without(deletedContact)));
 
   }

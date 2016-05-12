@@ -41,8 +41,8 @@ public class ContactModificationTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
+      assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
       Contacts afterContact1 = app.contact().all();
-      assertThat(afterContact1.size(), equalTo(beforeContact1.size() + 1));
       assertThat(afterContact1, equalTo(
               beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
@@ -61,8 +61,8 @@ public class ContactModificationTests extends TestBase {
             .withHomepage("zello");
     app.contact().modifyContact(contact);
     app.goTo().home();
+    assertThat(app.contact().count(), equalTo(beforeContact.size()));
     Contacts afterContact = app.contact().all();
-    assertThat(beforeContact.size(), equalTo(afterContact.size()));
     assertThat(afterContact, equalTo(
             beforeContact.without(modifiedContact).withAdded(contact)));
   }

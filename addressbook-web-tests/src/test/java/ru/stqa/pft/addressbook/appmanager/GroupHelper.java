@@ -56,6 +56,8 @@ public class GroupHelper extends HelperBase {
     click(By.name("update"));
   }
 
+  private Groups groupCache = null;
+
   public void create(GroupData group) {
     initGroupCreation();
     fillGroupForm(group);
@@ -87,8 +89,6 @@ public class GroupHelper extends HelperBase {
   public int count() {
     return wd.findElements(By.name("selected[]")).size();
   }
-
-  private Groups groupCache = null;
 
   public Groups all() {
     if (groupCache != null) {

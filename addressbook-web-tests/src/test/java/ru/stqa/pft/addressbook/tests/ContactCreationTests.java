@@ -42,8 +42,8 @@ public class ContactCreationTests extends TestBase {
             .withCompany("http://www.zello.com/").withGroup("test1");
     app.contact().createContact(contact);
     app.goTo().home();
+    assertThat(app.contact().count(), equalTo(beforeContact.size() + 1));
     Contacts afterContact = app.contact().all();
-    assertThat(afterContact.size(), equalTo(beforeContact.size() + 1));
     assertThat(afterContact, equalTo(
             beforeContact.withAdded(contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt()))))
     ;
