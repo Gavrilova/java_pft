@@ -1,9 +1,12 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
@@ -39,7 +42,7 @@ public class ContactDeletionTests extends TestBase {
 
       }
       app.goTo().home();
-      Set<ContactData> beforeContact1 = app.contact().all();
+      Contacts beforeContact1 = app.contact().all();
       app.goTo().addNew();
       ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
               .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
@@ -48,26 +51,24 @@ public class ContactDeletionTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
-      Set<ContactData> afterContact1 = app.contact().all();
-      assertEquals(afterContact1.size(), beforeContact1.size() + 1);
-      contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt());
-      beforeContact1.add(contact1);
-      assertEquals(beforeContact1, afterContact1);
+      Contacts afterContact1 = app.contact().all();
+      assertThat(afterContact1.size(), equalTo(beforeContact1.size() + 1));
+      assertThat(afterContact1, equalTo(
+              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt()))));
     }
   }
 
   @Test
   public void testContactDeletion() {
     app.goTo().home();
-    Set<ContactData> beforeContact = app.contact().all();
+    Contacts beforeContact = app.contact().all();
     ContactData deletedContact = beforeContact.iterator().next();
     app.contact().deleteContact(deletedContact);
     app.goTo().home();
-    Set<ContactData> afterContact = app.contact().all();
+    Contacts afterContact = app.contact().all();
     assertEquals(beforeContact.size(), afterContact.size() + 1);
+    assertThat(afterContact, equalTo(beforeContact.without(deletedContact)));
 
-    beforeContact.remove(deletedContact);
-    assertEquals(beforeContact, afterContact);
   }
 
 

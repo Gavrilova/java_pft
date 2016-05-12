@@ -1,8 +1,11 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
@@ -35,7 +38,7 @@ public class ContactModificationTests extends TestBase {
 
       }
       app.goTo().home();
-      Set<ContactData> beforeContact1 = app.contact().all();
+      Contacts beforeContact1 = app.contact().all();
       app.goTo().addNew();
       ContactData contact1 = new ContactData().withFirstname("Irina")
               .withMiddlename("Aleksandrovna").withLastname("Gavrilova")
@@ -45,18 +48,17 @@ public class ContactModificationTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
-      Set<ContactData> afterContact1 = app.contact().all();
-      assertEquals(afterContact1.size(), beforeContact1.size() + 1);
-      contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt());
-      beforeContact1.add(contact1);
-      assertEquals(beforeContact1, afterContact1);
+      Contacts afterContact1 = app.contact().all();
+      assertThat(afterContact1.size(), equalTo(beforeContact1.size() + 1));
+      assertThat(afterContact1, equalTo(
+              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt()))));
     }
   }
 
   @Test
   public void testContactModification() {
     app.goTo().home();
-    Set<ContactData> beforeContact = app.contact().all();
+    Contacts beforeContact = app.contact().all();
     ContactData modifiedContact = beforeContact.iterator().next();
     ContactData contact = new ContactData().withId(modifiedContact.getId())
             .withFirstname("Ira").withMiddlename("Aleksandrovna").withLastname("Gavrilova")
@@ -66,11 +68,9 @@ public class ContactModificationTests extends TestBase {
             .withHomepage("zello");
     app.contact().modifyContact(contact);
     app.goTo().home();
-    Set<ContactData> afterContact = app.contact().all();
+    Contacts afterContact = app.contact().all();
     assertEquals(beforeContact.size(), afterContact.size());
-
-    beforeContact.remove(modifiedContact);
-    beforeContact.add(contact);
-    assertEquals(beforeContact, afterContact);
+    assertThat(afterContact, equalTo(
+            beforeContact.without(modifiedContact).withAdded(contact)));
   }
 }
