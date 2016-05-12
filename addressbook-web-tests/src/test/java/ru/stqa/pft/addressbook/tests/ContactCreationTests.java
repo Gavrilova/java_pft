@@ -24,7 +24,7 @@ public class ContactCreationTests extends TestBase {
       Groups afterTest1 = app.group().all();
       assertThat(afterTest1.size(), equalTo(beforeTest1.size() + 1));
       assertThat(afterTest1, equalTo(
-              beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((gT1) -> gT1.getId()).max().getAsInt()))));
+              beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
     }
   }

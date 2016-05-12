@@ -1,7 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,13 +8,8 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 /**
  * Created by irinagavrilova on 4/19/16.
@@ -38,7 +31,7 @@ public class ContactDeletionTests extends TestBase {
         Groups afterTest1 = app.group().all();
         assertThat(afterTest1.size(), equalTo(beforeTest1.size() + 1));
         assertThat(afterTest1, equalTo(
-                beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((gT1) -> gT1.getId()).max().getAsInt()))));
+                beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
       }
       app.goTo().home();
@@ -54,7 +47,7 @@ public class ContactDeletionTests extends TestBase {
       Contacts afterContact1 = app.contact().all();
       assertThat(afterContact1.size(), equalTo(beforeContact1.size() + 1));
       assertThat(afterContact1, equalTo(
-              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt()))));
+              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
   }
 
@@ -66,7 +59,7 @@ public class ContactDeletionTests extends TestBase {
     app.contact().deleteContact(deletedContact);
     app.goTo().home();
     Contacts afterContact = app.contact().all();
-    assertEquals(beforeContact.size(), afterContact.size() + 1);
+    assertThat(beforeContact.size(), equalTo(afterContact.size() + 1));
     assertThat(afterContact, equalTo(beforeContact.without(deletedContact)));
 
   }
@@ -80,7 +73,7 @@ public class ContactDeletionTests extends TestBase {
       GroupData deletedGroup = beforeGroup.iterator().next();
       app.group().delete(deletedGroup);
       Groups afterGroup = app.group().all();
-      assertEquals(afterGroup.size(), beforeGroup.size() - 1);
+      assertThat(afterGroup.size(), equalTo(beforeGroup.size() - 1));
       assertThat(afterGroup, equalTo(beforeGroup.without(deletedGroup)));
     }
   }

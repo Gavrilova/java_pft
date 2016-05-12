@@ -6,10 +6,7 @@ import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by irinagavrilova on 4/19/16.

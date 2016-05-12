@@ -8,10 +8,7 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by irinagavrilova on 4/19/16.
@@ -62,7 +59,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void selectContactToEditById(int id) {
-    wd.findElement(By.xpath("//input[@id='"+ id + "']/../..//img[@title='Edit']")).click();
+    wd.findElement(By.xpath("//input[@id='" + id + "']/../..//img[@title='Edit']")).click();
   }
 
   public void deleteSelectedContact() {
