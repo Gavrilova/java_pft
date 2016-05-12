@@ -1,13 +1,17 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.Comparator;
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Created by irinagavrilova on 4/19/16.
@@ -19,17 +23,14 @@ public class ContactModificationTests extends TestBase {
     if (app.contact().list().size() == 0) {
       app.goTo().groupPage();
       if (app.group().list().size() == 0) {
-        List<GroupData> beforeTest1 = app.group().list();
+
+        Groups beforeTest1 = app.group().all();
         GroupData groupTest1 = new GroupData().withName("test1");
         app.group().create(groupTest1);
-        List<GroupData> afterTest1 = app.group().list();
-        Assert.assertEquals(afterTest1.size(), beforeTest1.size() + 1);
-
-        beforeTest1.add(groupTest1);
-        Comparator<? super GroupData> byIdTest1 = (gT1, gT2) -> Integer.compare(gT1.getId(), gT2.getId());
-        beforeTest1.sort(byIdTest1);
-        afterTest1.sort(byIdTest1);
-        Assert.assertEquals(beforeTest1, afterTest1);
+        Groups afterTest1 = app.group().all();
+        assertThat(afterTest1.size(), equalTo(beforeTest1.size() + 1));
+        assertThat(afterTest1, equalTo(
+                beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((gT1) -> gT1.getId()).max().getAsInt()))));
 
       }
       app.goTo().home();
@@ -44,13 +45,13 @@ public class ContactModificationTests extends TestBase {
       app.contact().createContact(contact1);
       app.goTo().home();
       List<ContactData> afterContact1 = app.contact().list();
-      Assert.assertEquals(afterContact1.size(), beforeContact1.size() + 1);
+      assertEquals(afterContact1.size(), beforeContact1.size() + 1);
 
       beforeContact1.add(contact1);
       Comparator<? super ContactData> byIdContact1 = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
       beforeContact1.sort(byIdContact1);
       afterContact1.sort(byIdContact1);
-      Assert.assertEquals(beforeContact1, afterContact1);
+      assertEquals(beforeContact1, afterContact1);
     }
   }
 
@@ -68,7 +69,7 @@ public class ContactModificationTests extends TestBase {
     app.contact().modifyContact(index, contact);
     app.goTo().home();
     List<ContactData> afterContact = app.contact().list();
-    Assert.assertEquals(beforeContact.size(), afterContact.size());
+    assertEquals(beforeContact.size(), afterContact.size());
 
     beforeContact.remove(index);
     beforeContact.add(contact);
@@ -76,6 +77,6 @@ public class ContactModificationTests extends TestBase {
     Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
     beforeContact.sort(byId);
     afterContact.sort(byId);
-    Assert.assertEquals(beforeContact, afterContact);
+    assertEquals(beforeContact, afterContact);
   }
 }
