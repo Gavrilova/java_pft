@@ -8,6 +8,7 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,7 +20,7 @@ public class ContactCreationTests extends TestBase {
 
   public void ensurePrecondition() {
     app.goTo().groupPage();
-    if (app.group().list().size() == 0) {
+    if (app.group().all().size() == 0) {
 
       Groups beforeTest1 = app.group().all();
       GroupData groupTest1 = new GroupData().withName("test1");
@@ -36,7 +37,7 @@ public class ContactCreationTests extends TestBase {
 
   public void testContactCreation() {
     app.goTo().home();
-    List<ContactData> beforeContact = app.contact().list();
+    Set<ContactData> beforeContact = app.contact().all();
     app.goTo().addNew();
     ContactData contact = new ContactData().withFirstname("Maria").withMiddlename("Alexeevna")
             .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
@@ -45,13 +46,11 @@ public class ContactCreationTests extends TestBase {
             .withCompany("http://www.zello.com/").withGroup("test1");
     app.contact().createContact(contact);
     app.goTo().home();
-    List<ContactData> afterContact = app.contact().list();
+    Set<ContactData> afterContact = app.contact().all();
     assertEquals(afterContact.size(), beforeContact.size() + 1);
 
+    contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt());
     beforeContact.add(contact);
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    beforeContact.sort(byId);
-    afterContact.sort(byId);
     assertEquals(beforeContact, afterContact);
   }
 }

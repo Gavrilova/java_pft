@@ -9,6 +9,7 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,9 +24,9 @@ public class ContactDeletionTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     creating = false;
-    if (app.contact().list().size() == 0) {
+    if (app.contact().all().size() == 0) {
       app.goTo().groupPage();
-      if (app.group().list().size() == 0) {
+      if (app.group().all().size() == 0) {
         creating = true;
 
         Groups beforeTest1 = app.group().all();
@@ -38,7 +39,7 @@ public class ContactDeletionTests extends TestBase {
 
       }
       app.goTo().home();
-      List<ContactData> beforeContact1 = app.contact().list();
+      Set<ContactData> beforeContact1 = app.contact().all();
       app.goTo().addNew();
       ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
               .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
@@ -47,13 +48,10 @@ public class ContactDeletionTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
-      List<ContactData> afterContact1 = app.contact().list();
+      Set<ContactData> afterContact1 = app.contact().all();
       assertEquals(afterContact1.size(), beforeContact1.size() + 1);
-
+      contact1.withId(afterContact1.stream().mapToInt((c1) -> c1.getId()).max().getAsInt());
       beforeContact1.add(contact1);
-      Comparator<? super ContactData> byIdContact1 = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-      beforeContact1.sort(byIdContact1);
-      afterContact1.sort(byIdContact1);
       assertEquals(beforeContact1, afterContact1);
     }
   }
@@ -61,14 +59,14 @@ public class ContactDeletionTests extends TestBase {
   @Test
   public void testContactDeletion() {
     app.goTo().home();
-    List<ContactData> beforeContact = app.contact().list();
-    int index = beforeContact.size() - 1;
-    app.contact().deleteContact(index);
+    Set<ContactData> beforeContact = app.contact().all();
+    ContactData deletedContact = beforeContact.iterator().next();
+    app.contact().deleteContact(deletedContact);
     app.goTo().home();
-    List<ContactData> afterContact = app.contact().list();
+    Set<ContactData> afterContact = app.contact().all();
     assertEquals(beforeContact.size(), afterContact.size() + 1);
 
-    beforeContact.remove(index);
+    beforeContact.remove(deletedContact);
     assertEquals(beforeContact, afterContact);
   }
 
