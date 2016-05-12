@@ -24,8 +24,8 @@ public class ContactModificationTests extends TestBase {
         Groups beforeTest1 = app.group().all();
         GroupData groupTest1 = new GroupData().withName("test1");
         app.group().create(groupTest1);
+        assertThat(app.group().count(), equalTo(beforeTest1.size() + 1));
         Groups afterTest1 = app.group().all();
-        assertThat(afterTest1.size(), equalTo(beforeTest1.size() + 1));
         assertThat(afterTest1, equalTo(
                 beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
