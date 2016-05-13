@@ -169,6 +169,11 @@ public class ContactData {
     return fax;
   }
 
+  public String getEmail2() {
+    return email2;
+  }
+
+
   public String getAllEmails() {
     return allEmails;
   }
@@ -176,9 +181,7 @@ public class ContactData {
   public String getEmail() {
     return email;
   }
-  public String getEmail2() {
-    return email2;
-  }
+
   public String getEmail3() {
     return email3;
   }
