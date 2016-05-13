@@ -40,7 +40,7 @@ public class ContactDataTests extends TestBase {
       ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
               .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
               .withAddress("Peregrine Falcon Dr.").withHomePhone("123-456 7890").withMobilePhone("234-567 8901")
-              .withWorkPhone("345-678 9012").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
+              .withWorkPhone("345-678 9012").withFax("5647").withEmail2("gavrilova.irina@gmail.com").withEmail3("example@zello.com")
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
