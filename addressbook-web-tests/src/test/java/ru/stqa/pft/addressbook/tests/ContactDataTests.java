@@ -34,14 +34,13 @@ public class ContactDataTests extends TestBase {
                 beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
       }
+
       app.goTo().home();
       Contacts beforeContact1 = app.contact().all();
       app.goTo().addNew();
-      ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
-              .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
+      ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna").withLastname("Gavrilova")
               .withAddress("Peregrine Falcon Dr.").withHomePhone("123-456 7890").withMobilePhone("234-567 8901")
-              .withWorkPhone("345-678 9012").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
-              .withHomepage("http://www.zello.com/").withGroup("test1");
+              .withWorkPhone("345-678 9012").withEmail2("gavrilova.irina@gmail.com").withEmail3("example@yandex.ru").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
       assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
@@ -49,13 +48,14 @@ public class ContactDataTests extends TestBase {
       assertThat(afterContact1, equalTo(
               beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
+
   }
 
   @Test
   public void testContactPhones() {
     app.goTo().home();
     ContactData contact = app.contact().all().iterator().next();
-    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact, contact.getGroup());
     assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
   }
 
@@ -63,7 +63,7 @@ public class ContactDataTests extends TestBase {
   public void testContactAddress() {
     app.goTo().home();
     ContactData contact = app.contact().all().iterator().next();
-    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact, contact.getGroup());
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
 
   }
@@ -72,8 +72,17 @@ public class ContactDataTests extends TestBase {
   public void testContactEmails() {
     app.goTo().home();
     ContactData contact = app.contact().all().iterator().next();
-    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact, contact.getGroup());
     assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
+  }
+
+  @Test
+  public void testComparisonViewAndEdit(){
+    app.goTo().home();
+    ContactData contact = app.contact().all().iterator().next();
+    String contactViewForm = app.contact().infoFromViewForm(contact);
+    ContactData contactEditForm = app.contact().infoFromEditForm(contact, contact.getGroup());
+    assertThat(contactViewForm, equalTo(mergeData(contactEditForm)));
   }
 
 
@@ -89,5 +98,35 @@ public class ContactDataTests extends TestBase {
 
   public static String cleaned(String phone) {
     return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
+  }
+
+  private String mergeData(ContactData contact) {
+    String names, homePhone, mobilePhone, workPhone, email, group;
+    names = Arrays.asList(contact.getFirstname(), contact.getMiddlename(), contact.getLastname())
+        .stream().filter((e) -> !e.equals("")).collect(Collectors.joining(" "));
+
+    if (contact.getHomePhone() != "") {
+      homePhone =  "\nH: " + contact.getHomePhone();
+    } else {homePhone = contact.getHomePhone();}
+
+    if (contact.getMobilePhone() != "") {
+      mobilePhone = "M: " + contact.getMobilePhone();
+    } else {mobilePhone = contact.getMobilePhone();}
+    if (contact.getWorkPhone() !="") {
+      workPhone = "W: " + contact.getWorkPhone();
+    } else {workPhone = contact.getWorkPhone();}
+    if (contact.getEmail() !="") {
+      email = "\n" + contact.getEmail();
+    } else {email = contact.getEmail();}
+    if (contact.getGroup() !="") {
+      group = "Member of: " + contact.getGroup();
+    } else {group = contact.getGroup();}
+
+
+    String contentDatas = Arrays.asList(names, contact.getAddress(), homePhone, mobilePhone, workPhone,
+            email, contact.getEmail2(), contact.getEmail3(), "\n", group)
+            .stream().filter((s) -> !s.equals("")).collect(Collectors.joining("\n"));
+    System.out.println("contentDatas: " + contentDatas);
+    return contentDatas;
   }
 }
