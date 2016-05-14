@@ -39,10 +39,10 @@ public class ContactDataTests extends TestBase {
       Contacts beforeContact1 = app.contact().all();
       app.goTo().addNew();
       ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna").withLastname("Gavrilova")
-              .withNickname("myNickname").withTitle("test4").withAddress("Peregrine Falcon Dr.")
+              .withNickname("myNickname").withTitle("test4").withCompany("Zello").withAddress("Peregrine Falcon Dr.")
               .withHomePhone("123-456 7890").withMobilePhone("234-567 8901").withWorkPhone("345-678 9012").withFax("5647")
-              .withEmail2("gavrilova.irina@gmail.com").withEmail3("example@zello.com")
-              .withHomepage("http://www.zello.com/").withGroup("test1");
+              .withEmail2("gavrilova.irina@gmail.com").withEmail3("masterok.friend.getrea-du187614sdskjh@mail.ru")
+              .withHomepage("http://zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
       assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
@@ -79,7 +79,7 @@ public class ContactDataTests extends TestBase {
   }
 
   @Test
-  public void testComparisonViewAndEdit(){
+  public void testComparisonViewAndEdit() {
     app.goTo().home();
     ContactData contact = app.contact().all().iterator().next();
     String contactViewForm = app.contact().infoFromViewForm(contact);
@@ -103,39 +103,62 @@ public class ContactDataTests extends TestBase {
   }
 
   private String mergeData(ContactData contact) {
-    String names, homePhone, mobilePhone, workPhone, fax, email, email3, homepage, homepageHttpDeleted, group;
+    String names, homePhone, mobilePhone, workPhone, fax, email, st, email3, homepageHttpDeleted, group;
+
     names = Arrays.asList(contact.getFirstname(), contact.getMiddlename(), contact.getLastname())
-        .stream().filter((e) -> !e.equals("")).collect(Collectors.joining(" "));
-    if (contact.getHomePhone() != "") {
-      homePhone =  "\nH: " + contact.getHomePhone();
-    } else {homePhone = contact.getHomePhone();}
+            .stream().filter((e) -> !e.equals("")).collect(Collectors.joining(" "));
+    if (contact.getHomePhone().length() != 0) {
+      homePhone = "\nH: " + contact.getHomePhone();
+    } else {
+      homePhone = contact.getHomePhone();
+    }
 
-    if (contact.getMobilePhone() != "") {
+    if (contact.getMobilePhone().length() != 0) {
       mobilePhone = "M: " + contact.getMobilePhone();
-    } else {mobilePhone = contact.getMobilePhone();}
-    if (contact.getWorkPhone() !="") {
+    } else {
+      mobilePhone = contact.getMobilePhone();
+    }
+    if (contact.getWorkPhone().length() != 0) {
       workPhone = "W: " + contact.getWorkPhone();
-    } else {workPhone = contact.getWorkPhone();}
-    if (contact.getFax() !="") {
+    } else {
+      workPhone = contact.getWorkPhone();
+    }
+    if (contact.getFax().length() != 0) {
       fax = "F: " + contact.getFax();
-    } else {fax = contact.getFax();}
-    if (contact.getEmail() !="") {
-      email = "\n" + contact.getEmail();
-    } else {email = contact.getEmail();}
+    } else {
+      fax = contact.getFax();
+    }
 
-    homepageHttpDeleted = contact.getHomepage().replaceAll("http://", "");
+    if (contact.getEmail().length() - contact.getEmail().split("@")[0].length() != 1) {
+      st = " (www." + contact.getEmail().split("@")[1] + ")";
+    } else st = "";
+    if (contact.getEmail() != "") {
+      email = "\n" + contact.getEmail() + st;
+    } else {
+      email = contact.getEmail();
+    }
 
-    if (contact.getEmail3() !="") {
-      email3 = contact.getEmail3() + " (" +  homepageHttpDeleted.replaceAll("/", "") + ")";
-    } else {email3 = contact.getEmail3();}
-    if (contact.getGroup() !="") {
-      group = "Member of: " + contact.getGroup();
-    } else {group = contact.getGroup();}
+    if (contact.getHomepage().length() !=0) {
+      homepageHttpDeleted = "Homepage:" + "\n" +  contact.getHomepage().replaceAll("http://", "");
+    } else { homepageHttpDeleted = contact.getHomepage().replaceAll("http://", "");}
 
-    String contentDatas = Arrays.asList(names,  contact.getNickname(), contact.getTitle(),contact.getAddress(),
+    if (contact.getEmail3().length() != 0) {
+      email3 = contact.getEmail3() + " (" + contact.getEmail3().replaceAll(contact.getEmail3().split("@")[0] + "@", "www.") + ")";
+    } else {
+      email3 = contact.getEmail3();
+    }
+
+
+    if (contact.getGroup() != null) {
+      group = "\n\nMember of: " + contact.getGroup();}
+    else {
+      group = "";
+    }
+    String  contentDatas = Arrays.asList(names, contact.getNickname(), contact.getTitle(), contact.getCompany(), contact.getAddress(),
             homePhone, mobilePhone, workPhone, fax, email, contact.getEmail2(), email3,
-            "Homepage:", homepageHttpDeleted, "\n", group)
+           homepageHttpDeleted, group)
             .stream().filter((s) -> !s.equals("")).collect(Collectors.joining("\n"));
+
     return contentDatas;
   }
 }

@@ -148,6 +148,7 @@ public class ContactHelper extends HelperBase {
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
     String middlename = wd.findElement(By.name("middlename")).getAttribute("value");
     String nickname = wd.findElement(By.name("nickname")).getAttribute("value");
+    String company = wd.findElement(By.name("company")).getAttribute("value");
     String title = wd.findElement(By.name("title")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
@@ -161,7 +162,7 @@ public class ContactHelper extends HelperBase {
 
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-            .withMiddlename(middlename).withNickname(nickname).withTitle(title)
+            .withMiddlename(middlename).withNickname(nickname).withCompany(company).withTitle(title)
             .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withFax(fax).withAddress(address)
             .withEmail(email).withEmail2(email2).withEmail3(email3)
             .withHomepage(homepage).withGroup(group);
