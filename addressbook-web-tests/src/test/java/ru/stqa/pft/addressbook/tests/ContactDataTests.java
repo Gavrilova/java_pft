@@ -110,6 +110,7 @@ public class ContactDataTests extends TestBase {
 
     names = Arrays.asList(contact.getFirstname(), contact.getMiddlename(), contact.getLastname())
             .stream().filter((e) -> !e.equals("")).collect(Collectors.joining(" "));
+
     if (contact.getHomePhone().length() != 0) {
       homePhone = "\nH: " + contact.getHomePhone();
     } else {
@@ -152,8 +153,15 @@ public class ContactDataTests extends TestBase {
     } else {
       email3 = contact.getEmail3();
     }
+
+    if (contact.getGroup() !=null) {
+      group = "\n\nMember of: " + contact.getGroup();
+    }
+    else {
+      group = "";
+    }
     String contentDatas = Arrays.asList(names, contact.getNickname(), contact.getTitle(), contact.getCompany(), contact.getAddress(),
-            homePhone, mobilePhone, workPhone, fax, email, contact.getEmail2(), email3, homepageHttpDeleted)
+            homePhone, mobilePhone, workPhone, fax, email, contact.getEmail2(), email3, homepageHttpDeleted, group)
             .stream().filter((s) -> !s.equals("")).collect(Collectors.joining("\n"));
 
     return contentDatas;

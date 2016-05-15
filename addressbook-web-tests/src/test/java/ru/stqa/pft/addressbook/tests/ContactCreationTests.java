@@ -42,7 +42,7 @@ public class ContactCreationTests extends TestBase {
             .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
             .withAddress("Peregrine Falcon Dr.").withHomePhone("345-678 9012").withMobilePhone("123-456 7890")
             .withWorkPhone("234-567 8901").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
-            .withCompany("http://www.zello.com/").withPhoto(photo);//withGroup("test1");
+            .withCompany("http://www.zello.com/").withPhoto(photo).withGroup("test1");
     app.contact().createContact(contact);
     app.goTo().home();
     assertThat(app.contact().count(), equalTo(beforeContact.size() + 1));
@@ -51,45 +51,13 @@ public class ContactCreationTests extends TestBase {
             beforeContact.withAdded(contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt()))))
     ;
   }
+  @Test (enabled = false)
 
-@Test(enabled = false)
-
-public void testCurrentDir() {
-  File currentDir = new File (".");
-  System.out.println(currentDir.getAbsolutePath());
-  File photo = new File("src/test/resources/Zello.png");
-  System.out.println(photo.getAbsolutePath());
-  System.out.println(photo.exists());
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  public void testCurrentDir() {
+    File currentDir = new File (".");
+    System.out.println(currentDir.getAbsolutePath());
+    File photo = new File("src/test/resources/Zello.png");
+    System.out.println(photo.getAbsolutePath());
+    System.out.println(photo.exists());
+  }
 }

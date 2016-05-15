@@ -118,12 +118,10 @@ public class ContactData {
     this.group = group;
     return this;
   }
-
   public ContactData withPhoto(File photo) {
     this.photo = photo;
     return this;
   }
-
 
   public int getId() {
     return id;
@@ -198,7 +196,6 @@ public class ContactData {
   public String getGroup() {
     return group;
   }
-
   public File getPhoto() {
     return photo;
   }
