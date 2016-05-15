@@ -37,7 +37,7 @@ public class GroupDataGenerator {
       groups.add(new GroupData().withName(String.format("test %s", i))
       .withHeader(String.format("header %s", i)).withFooter(String.format("footer %s", i)));
     }
-    return null;
+    return groups;
   }
 
 

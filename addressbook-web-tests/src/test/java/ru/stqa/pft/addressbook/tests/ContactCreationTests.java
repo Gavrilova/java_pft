@@ -51,10 +51,11 @@ public class ContactCreationTests extends TestBase {
             beforeContact.withAdded(contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt()))))
     ;
   }
-  @Test (enabled = false)
+
+  @Test(enabled = false)
 
   public void testCurrentDir() {
-    File currentDir = new File (".");
+    File currentDir = new File(".");
     System.out.println(currentDir.getAbsolutePath());
     File photo = new File("src/test/resources/Zello.png");
     System.out.println(photo.getAbsolutePath());
