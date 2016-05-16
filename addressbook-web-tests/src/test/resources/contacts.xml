@@ -11,11 +11,10 @@
     <mobilePhone>mobilePhone 0</mobilePhone>
     <workPhone>workPhone 0</workPhone>
     <fax>fax 0</fax>
-    <email>emailFirst 0</email>
     <email2>emailSecond 0</email2>
     <email3>emailThird 0</email3>
     <homepage>homepage 0</homepage>
-    <group>group 0</group>
+    <group>test1</group>
   </contact>
   <contact>
     <firstname>name 1</firstname>
@@ -29,11 +28,10 @@
     <mobilePhone>mobilePhone 1</mobilePhone>
     <workPhone>workPhone 1</workPhone>
     <fax>fax 1</fax>
-    <email>emailFirst 1</email>
     <email2>emailSecond 1</email2>
     <email3>emailThird 1</email3>
     <homepage>homepage 1</homepage>
-    <group>group 1</group>
+    <group>test1</group>
   </contact>
   <contact>
     <firstname>name 2</firstname>
@@ -47,10 +45,9 @@
     <mobilePhone>mobilePhone 2</mobilePhone>
     <workPhone>workPhone 2</workPhone>
     <fax>fax 2</fax>
-    <email>emailFirst 2</email>
     <email2>emailSecond 2</email2>
     <email3>emailThird 2</email3>
     <homepage>homepage 2</homepage>
-    <group>group 2</group>
+    <group>test1</group>
   </contact>
 </list>

@@ -34,7 +34,7 @@ public class ContactData {
   private String allPhones;
   @Expose
   private String fax;
-  @Expose
+  @XStreamOmitField
   private String email;
   @Expose
   private String email2;

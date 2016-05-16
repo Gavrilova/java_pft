@@ -11,11 +11,10 @@
     "mobilePhone": "mobilePhone 0",
     "workPhone": "workPhone 0",
     "fax": "fax 0",
-    "email": "emailFirst 0",
     "email2": "emailSecond 0",
     "email3": "emailThird 0",
     "homepage": "homepage 0",
-    "group": "group 0"
+    "group": "test1"
   },
   {
     "firstname": "name 1",
@@ -29,11 +28,10 @@
     "mobilePhone": "mobilePhone 1",
     "workPhone": "workPhone 1",
     "fax": "fax 1",
-    "email": "emailFirst 1",
     "email2": "emailSecond 1",
     "email3": "emailThird 1",
     "homepage": "homepage 1",
-    "group": "group 1"
+    "group": "test1"
   },
   {
     "firstname": "name 2",
@@ -47,10 +45,9 @@
     "mobilePhone": "mobilePhone 2",
     "workPhone": "workPhone 2",
     "fax": "fax 2",
-    "email": "emailFirst 2",
     "email2": "emailSecond 2",
     "email3": "emailThird 2",
     "homepage": "homepage 2",
-    "group": "group 2"
+    "group": "test1"
   }
 ]

@@ -76,10 +76,10 @@ public class ContactDataGenerator {
     System.out.println(new File(".").getAbsoluteFile());
     Writer writer = new FileWriter(file);
     for (ContactData contact : contacts) {
-      writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+      writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
               contact.getFirstname(), contact.getMiddlename(), contact.getLastname(), contact.getNickname(),
               contact.getTitle(), contact.getAddress(), contact.getHomePhone(), contact.getMobilePhone(),
-              contact.getWorkPhone(), contact.getFax(), contact.getCompany(), contact.getEmail(), contact.getEmail2(),
+              contact.getWorkPhone(), contact.getFax(), contact.getCompany(), contact.getEmail2(),
               contact.getEmail3(), contact.getHomepage(), contact.getGroup()));
     }
     writer.close();
@@ -104,7 +104,7 @@ public class ContactDataGenerator {
               .withEmail2(String.format("emailSecond %s", i))
               .withEmail3(String.format("emailThird %s", i))
               .withHomepage(String.format("homepage %s", i))
-              .withGroup(String.format("group %s", i)));
+              .withGroup(String.format("test1", i)));
     }
     return contacts;
   }
