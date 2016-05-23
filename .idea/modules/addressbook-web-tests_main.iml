@@ -16,6 +16,7 @@
     <orderEntry type="library" name="Gradle: com.thoughtworks.xstream:xstream:1.4.9" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.6.2" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
+    <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:6.0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-chrome-driver:2.53.0" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-edge-driver:2.53.0" level="project" />
