@@ -20,22 +20,22 @@ public class ContactDeletionTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     creating = false;
-    if (app.contact().all().size() == 0) {
+    if (app.db().contacts().size() == 0) {
       app.goTo().groupPage();
-      if (app.group().all().size() == 0) {
+      if (app.db().groups().size() == 0) {
         creating = true;
-
-        Groups beforeTest1 = app.group().all();
+        app.goTo().groupPage();
+        Groups beforeTest1 = app.db().groups();
         GroupData groupTest1 = new GroupData().withName("test1");
         app.group().create(groupTest1);
         assertThat(app.group().count(), equalTo(beforeTest1.size() + 1));
-        Groups afterTest1 = app.group().all();
+        Groups afterTest1 = app.db().groups();
         assertThat(afterTest1, equalTo(
                 beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
       }
+      Contacts beforeContact1 = app.db().contacts();
       app.goTo().home();
-      Contacts beforeContact1 = app.contact().all();
       app.goTo().addNew();
       ContactData contact1 = new ContactData().withFirstname("Ira").withMiddlename("Aleksandrovna")
               .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
@@ -44,8 +44,8 @@ public class ContactDeletionTests extends TestBase {
               .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
-      assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
-      Contacts afterContact1 = app.contact().all();
+      assertThat(app.db().contacts().size(), equalTo(beforeContact1.size() + 1));
+      Contacts afterContact1 = app.db().contacts();
       assertThat(afterContact1, equalTo(
               beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
@@ -54,12 +54,12 @@ public class ContactDeletionTests extends TestBase {
   @Test
   public void testContactDeletion() {
     app.goTo().home();
-    Contacts beforeContact = app.contact().all();
+    Contacts beforeContact = app.db().contacts();
     ContactData deletedContact = beforeContact.iterator().next();
     app.contact().deleteContact(deletedContact);
     app.goTo().home();
-    assertThat(app.contact().count(), equalTo(beforeContact.size() - 1));
-    Contacts afterContact = app.contact().all();
+    assertThat(app.db().contacts().size(), equalTo(beforeContact.size() - 1));
+    Contacts afterContact = app.db().contacts();
     assertThat(afterContact, equalTo(beforeContact.without(deletedContact)));
 
   }
@@ -68,12 +68,13 @@ public class ContactDeletionTests extends TestBase {
   @AfterMethod
   public void ensurePostconditions() {
     if (creating) {
+
+      Groups beforeGroup = app.db().groups();
       app.goTo().groupPage();
-      Groups beforeGroup = app.group().all();
       GroupData deletedGroup = beforeGroup.iterator().next();
       app.group().delete(deletedGroup);
-      assertThat(app.group().count(), equalTo(beforeGroup.size() - 1));
-      Groups afterGroup = app.group().all();
+      assertThat(app.db().groups().size(), equalTo(beforeGroup.size() - 1));
+      Groups afterGroup = app.db().groups();
       assertThat(afterGroup, equalTo(beforeGroup.without(deletedGroup)));
     }
   }

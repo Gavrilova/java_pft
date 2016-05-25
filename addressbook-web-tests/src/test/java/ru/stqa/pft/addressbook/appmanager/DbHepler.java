@@ -39,16 +39,17 @@ public class DbHepler {
     return new Groups(result);
   }
 
+
   public Contacts contacts() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<ContactData> resultContacts = session.createQuery("from ContactData where deprecated = 0000-00-00").list();
-    for (ContactData contacts : resultContacts) {
+    List<ContactData> resultContact = session.createQuery("from ContactData where deprecated = 0000-00-00").list();
+    for (ContactData contacts : resultContact) {
       System.out.println(contacts);
     }
     session.getTransaction().commit();
     session.close();
-    return new Contacts(resultContacts);
+    return new Contacts(resultContact);
   }
 
 
