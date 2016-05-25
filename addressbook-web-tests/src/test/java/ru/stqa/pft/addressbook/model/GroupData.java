@@ -10,11 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@XStreamAlias("group")
 @Entity //Объявляет класс GroupData привязанной к базе
 @Table (name = "group_list")
-@XStreamAlias("group")
 
 public class GroupData {
+
 
   @XStreamOmitField
   @Id
@@ -24,10 +25,12 @@ public class GroupData {
   @Expose
   @Column (name = "group_name")
   private String name;
+
   @Expose
   @Column (name = "group_header")
   @Type(type = "text")
   private String header;
+
   @Expose
   @Column (name = "group_footer")
   @Type(type = "text")

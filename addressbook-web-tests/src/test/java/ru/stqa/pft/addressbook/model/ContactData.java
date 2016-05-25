@@ -3,49 +3,101 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
-
+@Entity
+@Table(name = "addressbook")
 @XStreamAlias("contact")
 
+
 public class ContactData {
+  @Id
+  @Column (name = "id")
   @XStreamOmitField
   private int id = Integer.MAX_VALUE;
+
+  @Column (name = "firstname")
   @Expose
   private String firstname;
+
+  @Column (name = "middlename")
   @Expose
   private String middlename;
+
+  @Column (name = "lastname")
   @Expose
   private String lastname;
+
+  @Column (name = "nickname")
   @Expose
   private String nickname;
+
+  @Column (name = "title")
   @Expose
   private String title;
+
+  @Column (name = "address")
+  @Type(type = "text")
   @Expose
   private String address;
+
+  @Column (name = "company")
   @Expose
   private String company;
+
+  @Column (name = "home")
+  @Type(type = "text")
   @Expose
   private String homePhone;
+
+  @Column (name = "mobile")
+  @Type(type = "text")
   @Expose
   private String mobilePhone;
+
+  @Column (name = "work")
+  @Type(type = "text")
   @Expose
   private String workPhone;
+  @Transient
   private String allPhones;
+
+  @Column (name = "fax")
+  @Type(type = "text")
   @Expose
   private String fax;
+
+  @Column (name = "email")
+  @Type(type = "text")
   @XStreamOmitField
   private String email;
+
+  @Column (name = "email2")
+  @Type(type = "text")
   @Expose
   private String email2;
+
+  @Column (name = "email3")
+  @Type(type = "text")
   @Expose
   private String email3;
+  @Transient
   private String allEmails;
+
+  @Column (name = "homepage")
+  @Type(type = "text")
   @Expose
   private String homepage;
+
+  @Transient
   @Expose
-  private String group;
-  private File photo;
+  transient private String group;
+
+  @Column (name = "photo")
+  @Type(type = "text")
+  private String photo;
 
   public ContactData withId(int id) {
     this.id = id;
@@ -143,7 +195,7 @@ public class ContactData {
   }
 
   public ContactData withPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
@@ -224,7 +276,7 @@ public class ContactData {
   }
 
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   @Override
