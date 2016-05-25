@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
@@ -23,7 +24,7 @@ public class DbHepler {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure() // configures settings from hibernate.cfg.xml
             .build();
-      sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
   }
 
   public Groups groups() {
@@ -38,7 +39,17 @@ public class DbHepler {
     return new Groups(result);
   }
 
-  public Contacts contacts;
+  public Contacts contacts() {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<ContactData> resultContacts = session.createQuery("from ContactData where deprecated = 0000-00-00").list();
+    for (ContactData contacts : resultContacts) {
+      System.out.println(contacts);
+    }
+    session.getTransaction().commit();
+    session.close();
+    return new Contacts(resultContacts);
+  }
 
 
 

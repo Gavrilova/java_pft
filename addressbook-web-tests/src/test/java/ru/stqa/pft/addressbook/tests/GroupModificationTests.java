@@ -19,8 +19,14 @@ public class GroupModificationTests extends TestBase {
 
     if (app.db().groups().size()==0) {
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test1"));
-    }
+      Groups beforeTest1 = app.db().groups();
+      GroupData groupTest1 = new GroupData().withName("test1");
+      app.group().create(groupTest1);
+      assertThat(app.db().groups().size(), equalTo(beforeTest1.size() + 1));
+      Groups afterTest1 = app.group().all();
+      assertThat(afterTest1, equalTo(
+              beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        }
   }
 
   @Test
@@ -29,10 +35,10 @@ public class GroupModificationTests extends TestBase {
     Groups beforeGroup = app.db().groups();
     GroupData modifiedGroup = beforeGroup.iterator().next();
     GroupData group = new GroupData().
-            withId(modifiedGroup.getId()).withName("test1").withHeader("test5").withFooter("test6");
+            withId(modifiedGroup.getId()).withName("nameEdited").withHeader("headerEdited").withFooter("footerEdited");
     app.goTo().groupPage();
     app.group().modify(group);
-    assertThat(app.group().count(), equalTo(beforeGroup.size()));
+    assertThat(app.db().groups().size(), equalTo(beforeGroup.size()));
     Groups afterGroup = app.db().groups();
     assertThat(afterGroup, equalTo(beforeGroup.without(modifiedGroup).withAdded(group)));
 
