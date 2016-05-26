@@ -20,8 +20,7 @@ public class GroupDeletionTests extends TestBase {
       app.group().create(groupTest1);
       assertThat(app.db().groups().size(), equalTo(beforeTest1.size() + 1));
       Groups afterTest1 = app.db().groups();
-      assertThat(afterTest1, equalTo(
-              beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+      assertThat(afterTest1, equalTo(beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
   }
 

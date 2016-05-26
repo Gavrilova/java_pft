@@ -64,18 +64,26 @@ public class GroupData {
   }
 
   public String getHeader() {
+    if (header ==null) {
+      header = "";
+    }
     return header;
   }
 
   public String getFooter() {
+    if (footer == null) {
+      footer = "";
+    }
     return footer;
   }
 
   @Override
   public String toString() {
     return "GroupData{" +
-            "id='" + id + '\'' +
+            "id=" + id +
             ", name='" + name + '\'' +
+            ", header='" + header + '\'' +
+            ", footer='" + footer + '\'' +
             '}';
   }
 
