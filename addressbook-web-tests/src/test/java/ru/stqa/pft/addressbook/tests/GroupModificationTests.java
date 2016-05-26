@@ -26,6 +26,8 @@ public class GroupModificationTests extends TestBase {
       Groups afterTest1 = app.db().groups();
       assertThat(afterTest1, equalTo(
               beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+      verifyGroupListInUI();
+
     }
   }
 
