@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -16,6 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by irinagavrilova on 4/19/16.
  */
 public class ContactModificationTests extends TestBase {
+
+ public File photo = new File("src/test/resources/Zello.png");
 
   @BeforeMethod
   public void ensurePreconditions() {
@@ -35,20 +38,18 @@ public class ContactModificationTests extends TestBase {
       app.goTo().home();
       Contacts beforeContact1 = app.db().contacts();
       app.goTo().addNew();
-      File photo = new File("src/test/resources/Zello.png");
       ContactData contact1 = new ContactData().withFirstname("Irina")
               .withMiddlename("Aleksandrovna").withLastname("Gavrilova")
               .withNickname("myNickname").withTitle("test4").withAddress("Peregrine Falcon Dr.")
               .withHomePhone("123-456 7890").withWorkPhone("234-567 8901").withMobilePhone("345-678 9012")
               .withFax("1945").withEmail2("gavrilova.irina@gmail.com")
-              .withHomepage("http://www.zello.com/").withGroup("test1")
-              .withPhoto(photo);
+              .withHomepage("http://www.zello.com/").withGroup("test1");
       app.contact().createContact(contact1);
       app.goTo().home();
-//      assertThat(app.db().contacts().size(), equalTo(beforeContact1.size() + 1));
+      assertThat(app.db().contacts().size(), equalTo(beforeContact1.size() + 1));
       Contacts afterContact1 = app.db().contacts();
-//      assertThat(afterContact1, equalTo(
-//              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+      assertThat(afterContact1, equalTo(
+              beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
   }
 
@@ -62,14 +63,15 @@ public class ContactModificationTests extends TestBase {
             .withMiddlename("Aleksandrovna").withLastname("Gavrilova")
             .withNickname("editedNickname").withTitle("editedTEST")
             .withAddress("Peregrine Falcon Dr.").withCompany("Zello").withHomePhone("123-456 1234")
-            .withMobilePhone("234-567 3457").withWorkPhone("345-678 0000").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
-            .withHomepage("zello");
+            .withMobilePhone("234-567 3457").withWorkPhone("345-678 0000").withFax("5647")
+            .withEmail("email").withEmail2("gavrilova.irina@gmail.com").withEmail3("email3")
+            .withHomepage("zello").withPhoto(photo);
     app.goTo().home();
     app.contact().modifyContact(contact);
     app.goTo().home();
     assertThat(app.db().contacts().size(), equalTo(beforeContact.size()));
     Contacts afterContact = app.db().contacts();
-//    assertThat(afterContact, equalTo(
-//            beforeContact.without(modifiedContact).withAdded(contact)));
+    Contacts toCompateContact = beforeContact.without(modifiedContact).withAdded(contact);
+    assertThat(afterContact, equalTo(toCompateContact));
   }
 }

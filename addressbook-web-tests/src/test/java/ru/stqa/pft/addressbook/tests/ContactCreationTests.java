@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -83,9 +84,8 @@ public class ContactCreationTests extends TestBase {
     app.goTo().home();
     assertThat(app.db().contacts().size(), equalTo(beforeContact.size() + 1));
     Contacts afterContact = app.db().contacts();
- //   assertThat(afterContact, equalTo(
- //           beforeContact.withAdded(contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt()))))
-    ;
+    assertThat(afterContact, equalTo(
+            beforeContact.withAdded(contact.withId(afterContact.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
   @Test(enabled = false)
