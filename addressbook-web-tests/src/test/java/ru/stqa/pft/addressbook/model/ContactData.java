@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+
 @Entity
 @Table(name = "addressbook")
 @XStreamAlias("contact")
@@ -14,50 +15,50 @@ import java.io.File;
 
 public class ContactData {
   @Id
-  @Column (name = "id")
+  @Column(name = "id")
   @XStreamOmitField
   private int id = Integer.MAX_VALUE;
 
-  @Column (name = "firstname")
+  @Column(name = "firstname")
   @Expose
   private String firstname;
 
-  @Column (name = "middlename")
+  @Column(name = "middlename")
   @Expose
   private String middlename;
 
-  @Column (name = "lastname")
+  @Column(name = "lastname")
   @Expose
   private String lastname;
 
-  @Column (name = "nickname")
+  @Column(name = "nickname")
   @Expose
   private String nickname;
 
-  @Column (name = "title")
+  @Column(name = "title")
   @Expose
   private String title;
 
-  @Column (name = "address")
+  @Column(name = "address")
   @Type(type = "text")
   @Expose
   private String address;
 
-  @Column (name = "company")
+  @Column(name = "company")
   @Expose
   private String company;
 
-  @Column (name = "home")
+  @Column(name = "home")
   @Type(type = "text")
   @Expose
   private String homePhone;
 
-  @Column (name = "mobile")
+  @Column(name = "mobile")
   @Type(type = "text")
   @Expose
   private String mobilePhone;
 
-  @Column (name = "work")
+  @Column(name = "work")
   @Type(type = "text")
   @Expose
   private String workPhone;
@@ -65,23 +66,23 @@ public class ContactData {
   @Transient
   private String allPhones;
 
-  @Column (name = "fax")
+  @Column(name = "fax")
   @Type(type = "text")
   @Expose
   private String fax;
 
-  @Column (name = "email")
+  @Column(name = "email")
   @Type(type = "text")
   //@XStreamOmitField
   @Expose
   private String email;
 
-  @Column (name = "email2")
+  @Column(name = "email2")
   @Type(type = "text")
   @Expose
   private String email2;
 
-  @Column (name = "email3")
+  @Column(name = "email3")
   @Type(type = "text")
   @Expose
   private String email3;
@@ -89,7 +90,7 @@ public class ContactData {
   @Transient
   private String allEmails;
 
-  @Column (name = "homepage")
+  @Column(name = "homepage")
   @Type(type = "text")
   @Expose
   private String homepage;
@@ -98,7 +99,7 @@ public class ContactData {
   @Expose
   private String group;
 
-  @Column (name = "photo")
+  @Column(name = "photo")
   @Type(type = "text")
   @Expose
   private String photo = "";
@@ -328,7 +329,7 @@ public class ContactData {
     return group;
   }
 
-  public File getPhoto(){
+  public File getPhoto() {
     if (photo == null) {
       photo = "";
     }

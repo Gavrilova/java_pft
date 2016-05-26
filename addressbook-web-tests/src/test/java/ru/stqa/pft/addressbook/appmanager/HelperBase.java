@@ -31,6 +31,7 @@ public class HelperBase {
       }
     }
   }
+
   protected void attach(By locator, File file) {
 
     if (file != null && file.isFile()) {
@@ -38,6 +39,7 @@ public class HelperBase {
     }
 
   }
+
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();

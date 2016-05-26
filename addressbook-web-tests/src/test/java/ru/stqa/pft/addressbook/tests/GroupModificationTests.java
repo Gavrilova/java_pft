@@ -17,7 +17,7 @@ public class GroupModificationTests extends TestBase {
 
   public void ensurePreconditions() {
 
-    if (app.db().groups().size()==0) {
+    if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
       Groups beforeTest1 = app.db().groups();
       GroupData groupTest1 = new GroupData().withName("test1");
@@ -26,7 +26,7 @@ public class GroupModificationTests extends TestBase {
       Groups afterTest1 = app.db().groups();
       assertThat(afterTest1, equalTo(
               beforeTest1.withAdded(groupTest1.withId(afterTest1.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
-        }
+    }
   }
 
   @Test

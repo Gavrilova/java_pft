@@ -154,10 +154,9 @@ public class ContactDataTests extends TestBase {
       email3 = contact.getEmail3();
     }
 
-    if (contact.getGroup() !=null) {
+    if (contact.getGroup() != null) {
       group = "\n\nMember of: " + contact.getGroup();
-    }
-    else {
+    } else {
       group = "";
     }
     String contentDatas = Arrays.asList(names, contact.getNickname(), contact.getTitle(), contact.getCompany(), contact.getAddress(),

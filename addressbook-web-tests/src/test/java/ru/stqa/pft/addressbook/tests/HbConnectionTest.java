@@ -9,7 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
+
 import java.util.List;
+
 /**
  * Created by irinagavrilova on 5/23/16.
  */
@@ -17,7 +19,7 @@ public class HbConnectionTest {
 
   private SessionFactory sessionFactory;
 
- // @ManyToMany(fetch = FetchType.EAGER) про ленивую и жадную загрузку связей, указать в аннотации к полю groups
+  // @ManyToMany(fetch = FetchType.EAGER) про ленивую и жадную загрузку связей, указать в аннотации к полю groups
 
   @BeforeClass
   protected void setUp() throws Exception {
@@ -46,6 +48,7 @@ public class HbConnectionTest {
     session.getTransaction().commit();
     session.close();
   }
+
   @Test
   public void testHbConnectionContacts() {
     Session session = sessionFactory.openSession();
