@@ -79,7 +79,9 @@ public class ContactCreationTests extends TestBase {
     Contacts beforeContact = app.db().contacts();
     app.goTo().addNew();
     File photo = new File("src/test/resources/Zello.png");
-    app.contact().createContact(contact.withPhoto(photo));
+    GroupData groups = app.db().groups().iterator().next();  // выбираем произвольную группу из списка групп
+     // необходимо реализовать проверку предусловия
+    app.contact().createContact(contact.inGroup(groups).withPhoto(photo));
     app.goTo().home();
     assertThat(app.db().contacts().size(), equalTo(beforeContact.size() + 1));
     Contacts afterContact = app.db().contacts();

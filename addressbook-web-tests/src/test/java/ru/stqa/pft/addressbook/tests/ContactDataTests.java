@@ -42,7 +42,9 @@ public class ContactDataTests extends TestBase {
               .withNickname("myNickname").withTitle("test4").withCompany("Zello").withAddress("Peregrine Falcon Dr.")
               .withHomePhone("123-456 7890").withMobilePhone("234-567 8901").withWorkPhone("345-678 9012").withFax("5647")
               .withEmail2("gavrilova.irina@gmail.com").withEmail3("masterok.friend.getreadu187614sdskjh@mail.ru")
-              .withHomepage("http://zello.com/").withGroup("test1");
+              .withHomepage("http://zello.com/")
+             // .withGroup("test1")
+              ;
       app.contact().createContact(contact1);
       app.goTo().home();
       assertThat(app.contact().count(), equalTo(beforeContact1.size() + 1));
@@ -51,8 +53,8 @@ public class ContactDataTests extends TestBase {
               beforeContact1.withAdded(contact1.withId(afterContact1.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
 
-  }
-
+  }}
+/*
   @Test
   public void testContactPhones() {
     app.goTo().home();
@@ -166,3 +168,4 @@ public class ContactDataTests extends TestBase {
     return contentDatas;
   }
 }
+*/

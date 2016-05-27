@@ -46,12 +46,14 @@ public class ContactHelper extends HelperBase {
     attach(By.name("photo"), contactData.getPhoto());
 
     if (creation) {
-      if (contactData.getGroup() != null) {
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
       }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
+
   }
 
   public void selectContact(int index) {
@@ -138,7 +140,8 @@ public class ContactHelper extends HelperBase {
       String allEmails = element.findElement(By.xpath(".//td[5]")).getText();
       String allPhones = element.findElement(By.xpath(".//td[6]")).getText();
 
-      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withGroup("test1")
+      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+              //.withGroup("test1")
               .withAddress(address)
               .withAllEmails(allEmails)
               .withAllPhones(allPhones));
@@ -169,7 +172,9 @@ public class ContactHelper extends HelperBase {
             .withMiddlename(middlename).withNickname(nickname).withCompany(company).withTitle(title)
             .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withFax(fax).withAddress(address)
             .withEmail(email).withEmail2(email2).withEmail3(email3)
-            .withHomepage(homepage).withGroup(group);
+            .withHomepage(homepage)
+          //  .withGroup(group)
+            ;
   }
 
   public String infoFromViewForm(ContactData contact) {

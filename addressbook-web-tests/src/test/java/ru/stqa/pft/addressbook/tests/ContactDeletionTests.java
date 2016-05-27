@@ -41,7 +41,9 @@ public class ContactDeletionTests extends TestBase {
               .withLastname("Gavrilova").withNickname("myNickname").withTitle("test4")
               .withAddress("Peregrine Falcon Dr.").withHomePhone("123-456 7890").withMobilePhone("234-567 8901")
               .withWorkPhone("345-678 9012").withFax("5647").withEmail2("gavrilova.irina@gmail.com")
-              .withHomepage("http://www.zello.com/").withGroup("test1");
+              .withHomepage("http://www.zello.com/")
+              //.withGroup("test1")
+      ;
       app.contact().createContact(contact1);
       app.goTo().home();
       assertThat(app.db().contacts().size(), equalTo(beforeContact1.size() + 1));

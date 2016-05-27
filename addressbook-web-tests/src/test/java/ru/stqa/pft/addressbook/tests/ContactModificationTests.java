@@ -42,7 +42,9 @@ public class ContactModificationTests extends TestBase {
               .withNickname("myNickname").withTitle("test4").withAddress("Peregrine Falcon Dr.")
               .withHomePhone("123-456 7890").withWorkPhone("234-567 8901").withMobilePhone("345-678 9012")
               .withFax("1945").withEmail2("gavrilova.irina@gmail.com")
-              .withHomepage("http://www.zello.com/").withGroup("test1");
+              .withHomepage("http://www.zello.com/")
+              //.withGroup("test1")
+      ;
       app.contact().createContact(contact1);
       app.goTo().home();
       assertThat(app.db().contacts().size(), equalTo(beforeContact1.size() + 1));
