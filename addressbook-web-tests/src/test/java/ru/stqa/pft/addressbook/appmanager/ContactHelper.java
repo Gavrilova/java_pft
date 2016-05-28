@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -60,13 +61,45 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  private void selectContactById(int id) {
+  public void selectContactById(int id) {
     wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
 
   }
 
   public void selectContactToEditById(int id) {
+
     wd.findElement(By.xpath(String.format("//input[@id='%s']/../..//img[@title='Edit']", id))).click();
+  }
+
+  public void choosingGroupToAdd(GroupData group){
+
+    new Select(wd.findElement(By.cssSelector("select[name='to_group']"))).selectByVisibleText(group.getName());
+
+  }
+  public void choosingGroupToDelete(GroupData group){
+
+    new Select(wd.findElement(By.cssSelector("select[name='group']"))).selectByVisibleText(group.getName());
+
+  }
+  public void initAddContact() {
+    wd.findElement(By.name("add")).click();
+  }
+
+  public void initDeleteContact() {
+    wd.findElement(By.name("remove")).click();
+  }
+
+
+  public void addContactToGroup(ContactData contact, GroupData assosiateGroup) {
+    selectContactById(contact.getId());
+    choosingGroupToAdd(assosiateGroup);
+    initAddContact();
+  }
+
+  public void deleteContactFromGroup(GroupData groupData, ContactData contactData ) {
+    choosingGroupToDelete(groupData);
+    selectContactById(contactData.getId());
+    initDeleteContact();
   }
 
   public void initContactViewById(int id) {

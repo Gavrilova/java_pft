@@ -105,7 +105,8 @@ public class ContactData {
 
   @ManyToMany //описываем связь между объектами двух типов
   @JoinTable (name = "address_in_groups",
-          joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn (name = "group_id"))
+          joinColumns = @JoinColumn(name = "id"),
+          inverseJoinColumns = @JoinColumn (name = "group_id"))
   private Set<GroupData> groups = new HashSet<GroupData>();
 
 

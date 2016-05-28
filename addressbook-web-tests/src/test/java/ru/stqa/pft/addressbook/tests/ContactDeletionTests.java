@@ -81,5 +81,4 @@ public class ContactDeletionTests extends TestBase {
       assertThat(afterGroup, equalTo(beforeGroup.without(deletedGroup)));
     }
   }
-
 }
