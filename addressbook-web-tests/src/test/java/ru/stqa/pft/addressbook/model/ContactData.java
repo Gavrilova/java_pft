@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -103,7 +104,7 @@ public class ContactData {
   @Expose
   private String photo = "";
 
-  @ManyToMany //описываем связь между объектами двух типов
+  @ManyToMany (fetch = FetchType.EAGER ) //из базы данных будет извлекаться как можно больше информации за один заход
   @JoinTable (name = "address_in_groups",
           joinColumns = @JoinColumn(name = "id"),
           inverseJoinColumns = @JoinColumn (name = "group_id"))
