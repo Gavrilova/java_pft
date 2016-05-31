@@ -38,9 +38,6 @@ public class Equation {
         n = 0;
       }
     }
-
-
-
   }
 
   public int rootNumber() {

@@ -20,6 +20,7 @@ public class ApplicationManager {
 
   private String browser;
   private RegistrationHelper registrationHepler;
+  private FtpHelper ftp;
 
 
   public ApplicationManager(String browser) {
@@ -53,6 +54,13 @@ public class ApplicationManager {
       registrationHepler = new RegistrationHelper(this);
     }
     return registrationHepler;
+  }
+
+  public FtpHelper ftp() {
+  if (ftp == null) {
+    ftp = new FtpHelper(this);
+  }
+    return ftp;
   }
 
   public WebDriver getDriver() { //для того, чтобы инициализация стала ленивой, нужно ее перенести именно в этот метод
