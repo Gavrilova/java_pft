@@ -49,6 +49,7 @@ public class RestTests {
     JsonElement parsed = new JsonParser().parse(json);
     JsonElement issues = parsed.getAsJsonObject().get("issues");
 
+
     return new Gson().fromJson(issues, new TypeToken<Set<Issue>>() {
     }.getType());
   }
